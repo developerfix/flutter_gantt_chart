@@ -16,10 +16,12 @@ class GanttChartDefaultEventRowPerWeekBuilder extends StatelessWidget {
     required this.func,
     required this.holidayColor,
     required this.eventColor,
+    required this.rowElements,
   }) : super(key: key);
 
   final Color? holidayColor;
   final Color eventColor;
+  final int rowElements;
   final DateTime weekDate;
   final bool Function(BuildContext context, DateTime date) isHolidayFunc;
   final double dayWidth;
@@ -51,10 +53,9 @@ class GanttChartDefaultEventRowPerWeekBuilder extends StatelessWidget {
     //   daysToSkip = eventStartDate.difference(weekDate).inDays;
     // }
     final row = Row(
-      children: List.generate(7, (index) {
+      children: List.generate(rowElements, (index) {
         //
         final dayDate = DateUtils.addDaysToDate(weekDate, index);
-        final isHoliday = isHolidayFunc(context, dayDate);
 
         return SizedBox(
           width: dayWidth,
@@ -62,7 +63,7 @@ class GanttChartDefaultEventRowPerWeekBuilder extends StatelessWidget {
                 context,
                 eventStartDate,
                 eventEndDate,
-                isHoliday,
+                false,
                 event,
                 dayDate,
                 eventColor,
@@ -72,10 +73,9 @@ class GanttChartDefaultEventRowPerWeekBuilder extends StatelessWidget {
                 actStartDate: eventStartDate,
                 dayDate: dayDate,
                 event: event,
-                isHoliday: isHoliday,
+                isHoliday: false,
                 weekDate: weekDate,
                 eventColor: eventColor,
-                holidayColor: holidayColor,
               ),
         );
       }),

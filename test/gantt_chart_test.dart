@@ -23,7 +23,6 @@ void main() {
             context,
             start,
             const Duration(days: 0),
-            weekends,
             isHoliday,
           ),
           start,
@@ -34,7 +33,7 @@ void main() {
             context,
             start,
             const Duration(days: 1), //skip 1 workday
-            weekends,
+
             isHoliday,
           ),
           //skips saturday because it's a holiday, and sunday (1 workday)
@@ -46,7 +45,7 @@ void main() {
             context,
             start,
             const Duration(days: 7), //skip 7 workdays
-            weekends,
+
             isHoliday,
           ),
           //skips saturday because it's a holiday, and an entire week (5 days) then (friday and saturday) then 2 days
@@ -58,7 +57,6 @@ void main() {
             context,
             start,
             const Duration(days: 14),
-            weekends,
             (context, date) => date.day == 15,
           ),
           DateUtils.addDaysToDate(
@@ -93,7 +91,6 @@ void main() {
             context,
             start,
             const Duration(days: 0),
-            weekends,
             isHoliday,
           ),
           start,
@@ -103,7 +100,6 @@ void main() {
             context,
             start,
             const Duration(days: 1),
-            weekends,
             isHoliday,
           ),
           DateUtils.addDaysToDate(start, 1),
@@ -113,7 +109,6 @@ void main() {
             context,
             start,
             const Duration(days: 2),
-            weekends,
             isHoliday,
           ),
           DateUtils.addDaysToDate(start, 2),
@@ -123,7 +118,6 @@ void main() {
             context,
             start,
             const Duration(days: 3),
-            weekends,
             isHoliday,
           ),
           DateUtils.addDaysToDate(start, 3),
@@ -133,7 +127,6 @@ void main() {
             context,
             start,
             const Duration(days: 4),
-            weekends,
             isHoliday,
           ),
           DateUtils.addDaysToDate(start, 4 /*4 work days*/),
@@ -143,7 +136,6 @@ void main() {
             context,
             start,
             const Duration(days: 5),
-            weekends,
             isHoliday,
           ),
           DateUtils.addDaysToDate(

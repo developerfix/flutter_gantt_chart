@@ -14,23 +14,16 @@ class GanttChartDefaultDayHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekDay = WeekDay.fromIntWeekday(date.weekday);
-    final isHolidayV = isHoliday.call(context, date);
-    final bgColor = isHolidayV ? Colors.grey.shade800 : Colors.white;
-    final textColor = isHolidayV ? Colors.white : Colors.black;
+    // final weekDay = WeekDay.fromIntWeekday(date.weekday);
+    // final isHolidayV = isHoliday.call(context, date);
+    const bgColor = Colors.white;
+    const textColor = Colors.black;
     return Container(
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: const BorderDirectional(
-          bottom: BorderSide(),
-          // end: BorderSide(),
-          start: BorderSide(),
-        ),
-      ),
+      color: Color(0xff304869),
       child: Center(
         child: Text(
-          weekDay.symbol,
-          style: TextStyle(color: textColor),
+          date.day.toString(),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

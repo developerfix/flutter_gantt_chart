@@ -17,7 +17,6 @@ DateTime getRelativeDateInclusiveStartExeclusiveEnd(
   BuildContext context,
   DateTime start,
   Duration d,
-  Set<WeekDay> weekends,
   IsExtraHolidayFunc isExtraHolidayFunc,
 ) {
   if (d.inDays == 0) return start;
@@ -27,9 +26,8 @@ DateTime getRelativeDateInclusiveStartExeclusiveEnd(
   while (true) {
     final dayToTest = DateUtils.addDaysToDate(start, index);
     //
-    final weekday = WeekDay.fromIntWeekday(dayToTest.weekday);
-    if (!weekends.contains(weekday) &&
-        !isExtraHolidayFunc(context, dayToTest)) {
+
+    if (!isExtraHolidayFunc(context, dayToTest)) {
       workDaysCount++;
       index++;
       if (workDaysCount < targetWorkDays) {
@@ -52,14 +50,12 @@ abstract class GanttEventBase {
   DateTime getStartDateInclusive(
     BuildContext context,
     DateTime ganttStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   );
 
   DateTime getEndDateExeclusive(
     BuildContext context,
     DateTime calculatedStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   );
 
@@ -92,7 +88,6 @@ class GanttAbsoluteEvent extends GanttEventBase {
   DateTime getEndDateExeclusive(
     BuildContext context,
     DateTime calculatedStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   ) {
     return DateUtils.addDaysToDate(endDate, 1);
@@ -102,7 +97,6 @@ class GanttAbsoluteEvent extends GanttEventBase {
   DateTime getStartDateInclusive(
     BuildContext context,
     DateTime ganttStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   ) {
     return ganttStartDate.isAfter(startDate) ? ganttStartDate : startDate;
@@ -137,14 +131,12 @@ class GanttRelativeEvent extends GanttEventBase {
   DateTime getStartDateInclusive(
     BuildContext context,
     DateTime ganttStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   ) =>
       getRelativeDateInclusiveStartExeclusiveEnd(
         context,
         ganttStartDate,
         relativeToStart,
-        weekends,
         isExtraHolidayFunc,
       );
 
@@ -152,14 +144,12 @@ class GanttRelativeEvent extends GanttEventBase {
   DateTime getEndDateExeclusive(
     BuildContext context,
     DateTime calculatedStartDate,
-    Set<WeekDay> weekends,
     IsExtraHolidayFunc isExtraHolidayFunc,
   ) =>
       getRelativeDateInclusiveStartExeclusiveEnd(
         context,
         calculatedStartDate,
         duration,
-        weekends,
         isExtraHolidayFunc,
       );
 }
