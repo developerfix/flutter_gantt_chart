@@ -245,15 +245,18 @@ class GanttChartViewState extends State<GanttChartView> {
                               ),
                               // ),
                               child: Center(
-                                child: Text(
-                                  event.getDisplayName(context).toUpperCase(),
-                                  style: GoogleFonts.comfortaa(
-                                    textStyle: const TextStyle(
-                                      fontSize: 12.0,
-                                      overflow: TextOverflow.visible,
-                                      letterSpacing: 0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    event.getDisplayName(context).toUpperCase(),
+                                    style: GoogleFonts.comfortaa(
+                                      textStyle: const TextStyle(
+                                        fontSize: 12.0,
+                                        overflow: TextOverflow.visible,
+                                        letterSpacing: 0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
