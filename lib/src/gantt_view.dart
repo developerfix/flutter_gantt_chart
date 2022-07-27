@@ -234,17 +234,17 @@ class GanttChartViewState extends State<GanttChartView> {
                       final eventGradientColor = eventGradientColors[index];
                       return SizedBox(
                         height: widget.eventHeight,
-                        child: widget.stickyAreaEventBuilder
-                                ?.call(context, index, event) ??
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: eventGradientColor,
-                                //   borderRadius: BorderRadius.only(
-                                //     topLeft: Radius.circular(8),
-                                //     bottomLeft: Radius.circular(8),
-                              ),
-                              // ),
-                              child: Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: eventGradientColor,
+                            //   borderRadius: BorderRadius.only(
+                            //     topLeft: Radius.circular(8),
+                            //     bottomLeft: Radius.circular(8),
+                          ),
+                          // ),
+                          child: widget.stickyAreaEventBuilder
+                                  ?.call(context, index, event) ??
+                              Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -261,7 +261,7 @@ class GanttChartViewState extends State<GanttChartView> {
                                   ),
                                 ),
                               ),
-                            ),
+                        ),
                       );
                     })
                   ],
