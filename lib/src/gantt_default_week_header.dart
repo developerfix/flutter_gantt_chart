@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GanttChartDefaultWeekHeader extends StatelessWidget {
   const GanttChartDefaultWeekHeader({
@@ -51,7 +52,15 @@ class GanttChartDefaultWeekHeader extends StatelessWidget {
 
           return Text(
             txt,
-            style: const TextStyle(color: Colors.white),
+            style: GoogleFonts.comfortaa(
+              textStyle: const TextStyle(
+                fontSize: 16.0,
+                overflow: TextOverflow.visible,
+                letterSpacing: 0,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           );
         }),
       ),

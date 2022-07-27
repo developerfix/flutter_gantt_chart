@@ -1,10 +1,13 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/src/gantt_default_day_header.dart';
 import 'package:gantt_chart/src/gantt_default_week_header.dart';
 import 'package:gantt_chart/src/week_day.dart';
+import 'package:gantt_chart/styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'event.dart';
 import 'gantt_default_event_row_per_week.dart';
@@ -32,7 +35,6 @@ class GanttChartView extends StatefulWidget {
     this.stickyAreaDayBuilder,
     this.stickyAreaWeekBuilder,
     this.showDays = true,
-    this.dayWidth = 30,
     this.eventHeight = 30,
     this.weekHeaderHeight = 30,
     this.dayHeaderHeight = 30,
@@ -48,7 +50,6 @@ class GanttChartView extends StatefulWidget {
     BuildContext context,
     int eventIndex,
     GanttEventBase event,
-    Color eventColor,
   )? stickyAreaEventBuilder;
 
   final WidgetBuilder? stickyAreaWeekBuilder;
@@ -97,7 +98,6 @@ class GanttChartView extends StatefulWidget {
   final EventCellBuilderFunction? eventCellPerDayBuilder;
 
   /// Day column width (in pixels)
-  final double dayWidth;
 
   /// Event row height (in pixels)
   final double eventHeight;
@@ -117,9 +117,9 @@ class GanttChartViewState extends State<GanttChartView> {
   final extraHolidayCache = <DateTime>{};
   final CarouselController _controller = CarouselController();
 
-  int monthView = 12;
+  int monthView = 1;
 
-  double get weekWidth => widget.dayWidth * 31;
+  double get weekWidth => 43 * 31;
 
   late DateTime startDate;
   // late DateTime weekOfStartDate;
@@ -134,6 +134,17 @@ class GanttChartViewState extends State<GanttChartView> {
   //   return date.add(Duration(days: diff));
   // }
 
+  final gradientColors = <Gradient>[
+    orangeGradient,
+    purpleGradient,
+    pinkGradient,
+  ];
+  final eventGradientColors = <Gradient>[];
+  final solidColors = <Color>[
+    const Color(greyish),
+    const Color(reddish),
+    const Color(blueish),
+  ];
   final eventColors = <Color>[];
   List<Widget> items = [];
 
@@ -141,9 +152,16 @@ class GanttChartViewState extends State<GanttChartView> {
   void initState() {
     super.initState();
     eventColors.clear();
-    eventColors.addAll(widget.events.asMap().entries.map((e) =>
-        e.value.suggestedColor ??
-        Colors.primaries[e.key % Colors.primaries.length]));
+    eventColors.addAll(widget.events
+        .asMap()
+        .entries
+        .map((e) => solidColors[e.key % solidColors.length]));
+    eventGradientColors.clear();
+
+    eventGradientColors.addAll(widget.events
+        .asMap()
+        .entries
+        .map((e) => gradientColors[e.key % gradientColors.length]));
 
     controller = ScrollController(
         // initialScrollOffset: durationToWeekOffset(
@@ -181,7 +199,7 @@ class GanttChartViewState extends State<GanttChartView> {
               },
               child: const Icon(
                 Icons.arrow_back_ios_new,
-                size: 60,
+                size: 50,
                 color: Colors.white,
               ),
             ),
@@ -213,14 +231,14 @@ class GanttChartViewState extends State<GanttChartView> {
                         child: widget.stickyAreaDayBuilder?.call(context),
                       ),
                     ...widget.events.mapIndexed((index, event) {
-                      final eventColor = eventColors[index];
+                      final eventGradientColor = eventGradientColors[index];
                       return SizedBox(
                         height: widget.eventHeight,
                         child: widget.stickyAreaEventBuilder
-                                ?.call(context, index, event, eventColor) ??
+                                ?.call(context, index, event) ??
                             Container(
                               decoration: BoxDecoration(
-                                color: eventColors[index],
+                                gradient: eventGradientColor,
                                 //   borderRadius: BorderRadius.only(
                                 //     topLeft: Radius.circular(8),
                                 //     bottomLeft: Radius.circular(8),
@@ -228,7 +246,16 @@ class GanttChartViewState extends State<GanttChartView> {
                               // ),
                               child: Center(
                                 child: Text(
-                                  event.getDisplayName(context),
+                                  event.getDisplayName(context).toUpperCase(),
+                                  style: GoogleFonts.comfortaa(
+                                    textStyle: const TextStyle(
+                                      fontSize: 12.0,
+                                      overflow: TextOverflow.visible,
+                                      letterSpacing: 0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -246,7 +273,7 @@ class GanttChartViewState extends State<GanttChartView> {
                   carouselController: _controller,
                   options: CarouselOptions(
                     aspectRatio: 2.0,
-                    scrollPhysics: NeverScrollableScrollPhysics(),
+                    scrollPhysics: const NeverScrollableScrollPhysics(),
                     enlargeCenterPage: false,
                     viewportFraction: 1,
                   ),
@@ -278,7 +305,7 @@ class GanttChartViewState extends State<GanttChartView> {
                           return Expanded(
                               flex: 1,
                               child: SizedBox(
-                                width: widget.dayWidth * lastDayOfMonth.day,
+                                width: dayWidth.toDouble() * lastDayOfMonth.day,
                                 child: Column(
                                   children: [
                                     //Week Header row
@@ -795,16 +822,19 @@ class GanttChartViewState extends State<GanttChartView> {
               onTap: () {
                 _controller.nextPage();
               },
-              child: RotatedBox(
+              child: const RotatedBox(
                 quarterTurns: 2,
                 child: Icon(
                   Icons.arrow_back_ios_new,
-                  size: 60,
+                  size: 50,
                   color: Colors.white,
                 ),
               ),
             ),
           ],
+        ),
+        SizedBox(
+          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -812,26 +842,39 @@ class GanttChartViewState extends State<GanttChartView> {
             Column(
               children: [
                 SizedBox(
-                  width: 200,
-                  height: 100,
-                  child: Slider(
-                      min: 1,
-                      max: 12,
-                      divisions: 3,
-                      value: monthView.toDouble(),
-                      onChanged: (newMonthView) {
-                        setState(() {
-                          monthView = newMonthView.ceil();
-                        });
-                        print(monthView);
-                      }),
+                  width: 215,
+                  height: 20,
+                  child: Expanded(
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Colors.white,
+                        thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 5.0),
+                        overlayShape:
+                            const RoundSliderOverlayShape(overlayRadius: 5.0),
+                      ),
+                      child: Slider(
+                          thumbColor: Colors.white,
+                          activeColor: Colors.white,
+                          inactiveColor: Colors.white,
+                          min: 1,
+                          max: 12,
+                          divisions: 3,
+                          value: monthView.toDouble(),
+                          onChanged: (newMonthView) {
+                            setState(() {
+                              monthView = newMonthView.ceil();
+                            });
+                          }),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 200,
-                  height: 100,
+                  height: 20,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         '1',
                         style: TextStyle(color: Colors.white),
@@ -859,43 +902,3 @@ class GanttChartViewState extends State<GanttChartView> {
     );
   }
 }
-
-// class ManuallyControlledSlider extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _ManuallyControlledSliderState();
-//   }
-// }
-
-// class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
-//   final CarouselController _controller = CarouselController();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       child: Column(
-//         children: <Widget>[
-//           CarouselSlider(
-//             items: imageSliders,
-//             options: CarouselOptions(enlargeCenterPage: true, height: 200),
-//             carouselController: _controller,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// final List<String> imgList = [
-//   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-//   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-//   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-//   'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-//   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-//   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-// ];

@@ -77,63 +77,42 @@ class _MyHomePageState extends State<MyHomePage> {
                             // maxDuration: const Duration(days: 30 * 2),
                             maxDuration: const Duration(days: 30),
                             startDate: DateTime(2022, 7, 2),
-                            dayWidth: 43,
+
                             eventHeight: 40,
                             stickyAreaWidth: 200,
                             showStickyArea: showStickyArea,
                             showDays: showDaysRow,
                             events: [
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 0),
-                                duration: const Duration(days: 0),
-                                displayName: 'Fake Event',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 0),
-                                duration: const Duration(days: 5),
-                                displayName:
-                                    '1) This is a very long event name',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 1),
-                                duration: const Duration(days: 6),
-                                displayName: '2',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 2),
-                                duration: const Duration(days: 7),
-                                displayName: '3',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 3),
-                                duration: const Duration(days: 8),
-                                displayName: '4',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 4),
-                                duration: const Duration(days: 9),
-                                displayName: '5',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 5),
-                                duration: const Duration(days: 10),
-                                displayName: '6',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 6),
-                                duration: const Duration(days: 11),
-                                displayName: '7',
-                              ),
-                              GanttRelativeEvent(
-                                relativeToStart: const Duration(days: 7),
-                                duration: const Duration(days: 12),
-                                displayName: '8',
+                              GanttAbsoluteEvent(
+                                displayName: 'Absoulte Date event',
+                                startDate: DateTime(2022, 6, 7),
+                                endDate: DateTime(2022, 6, 20),
                               ),
                               GanttAbsoluteEvent(
                                 displayName: 'Absoulte Date event',
                                 startDate: DateTime(2022, 6, 7),
                                 endDate: DateTime(2022, 6, 20),
-                              )
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'Absoulte Date event',
+                                startDate: DateTime(2022, 6, 7),
+                                endDate: DateTime(2022, 6, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'Absoulte Date event',
+                                startDate: DateTime(2022, 6, 7),
+                                endDate: DateTime(2022, 6, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'Absoulte Date event',
+                                startDate: DateTime(2022, 6, 7),
+                                endDate: DateTime(2022, 6, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'Absoulte Date event',
+                                startDate: DateTime(2022, 6, 7),
+                                endDate: DateTime(2022, 6, 20),
+                              ),
                             ],
                           ),
                         ],

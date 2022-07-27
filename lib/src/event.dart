@@ -44,7 +44,7 @@ DateTime getRelativeDateInclusiveStartExeclusiveEnd(
 abstract class GanttEventBase {
   Object? get extra;
   String? get displayName;
-  Color? get suggestedColor;
+
   String Function(BuildContext context)? get displayNameBuilder;
 
   DateTime getStartDateInclusive(
@@ -74,14 +74,12 @@ class GanttAbsoluteEvent extends GanttEventBase {
   final Object? extra;
 
   @override
-  final Color? suggestedColor;
   GanttAbsoluteEvent({
     required this.startDate,
     required this.endDate,
     this.extra,
     this.displayNameBuilder,
     this.displayName,
-    this.suggestedColor,
   });
 
   @override
@@ -115,8 +113,6 @@ class GanttRelativeEvent extends GanttEventBase {
   final String Function(BuildContext context)? displayNameBuilder;
 
   @override
-  final Color? suggestedColor;
-
   GanttRelativeEvent({
     required this.relativeToStart,
     required this.duration,
@@ -124,7 +120,6 @@ class GanttRelativeEvent extends GanttEventBase {
     this.extra,
     this.displayName,
     this.displayNameBuilder,
-    this.suggestedColor,
   });
 
   @override

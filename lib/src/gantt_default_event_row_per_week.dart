@@ -31,27 +31,6 @@ class GanttChartDefaultEventRowPerWeekBuilder extends StatelessWidget {
   final EventCellBuilderFunction? func;
   @override
   Widget build(BuildContext context) {
-    // int? daysToSkip;
-    // if ((DateUtils.isSameDay(
-    //           eventStartDate,
-    //           weekDate,
-    //         ) ||
-    //         eventStartDate.isAfter(
-    //           weekDate,
-    //         )) &&
-    //     (eventStartDate.isBefore(
-    //           DateUtils.addDaysToDate(
-    //             weekDate,
-    //             6,
-    //           ),
-    //         ) ||
-    //         DateUtils.isSameDay(
-    //           eventStartDate,
-    //           weekDate,
-    //         ))) {
-    //   //
-    //   daysToSkip = eventStartDate.difference(weekDate).inDays;
-    // }
     final row = Row(
       children: List.generate(rowElements, (index) {
         //
