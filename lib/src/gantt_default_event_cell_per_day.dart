@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gantt_chart/src/week_day.dart';
 import 'event.dart';
 
 class GanttChartDefaultEventRowPerDayBuilder extends StatelessWidget {
@@ -7,6 +8,7 @@ class GanttChartDefaultEventRowPerDayBuilder extends StatelessWidget {
     required this.dayDate,
     required this.isHoliday,
     required this.event,
+    required this.index,
     required this.actStartDate,
     required this.actEndDate,
     required this.weekDate,
@@ -14,6 +16,7 @@ class GanttChartDefaultEventRowPerDayBuilder extends StatelessWidget {
   }) : super(key: key);
   final Color eventColor;
   final DateTime dayDate;
+  final int index;
   final bool isHoliday;
   final GanttEventBase event;
   final DateTime actStartDate;
@@ -27,20 +30,24 @@ class GanttChartDefaultEventRowPerDayBuilder extends StatelessWidget {
             dayDate.isAfter(actStartDate) && dayDate.isBefore(actEndDate));
 
     final color = isWithinEvent ? eventColor : null;
+
     return Container(
-      decoration: const BoxDecoration(
-        border: BorderDirectional(
-          top: BorderSide(width: 0.1, color: Colors.white38),
-          bottom: BorderSide(width: 0.1, color: Colors.white38),
-          start: BorderSide(width: 0.1, color: Colors.white38),
-          end: BorderSide(width: 0.1, color: Colors.white38),
-        ),
-      ),
+      decoration: (WeekDay.fromIntWeekday(
+                      (weekDate.add(Duration(days: index)).weekday)))
+                  .symbol ==
+              'M'
+          ? const BoxDecoration(
+              border: BorderDirectional(
+                // top: BorderSide(width: 1, color: Colors.white),
+                start: BorderSide(width: .1, color: Colors.white),
+                end: BorderSide(width: .1, color: Colors.white),
+              ),
+            )
+          : null,
       child: !isWithinEvent || isHoliday
           ? null
           : LayoutBuilder(
               builder: (context, constraints) => Container(
-                // height: constraints.maxHeight / 2,
                 color: color,
               ),
             ),

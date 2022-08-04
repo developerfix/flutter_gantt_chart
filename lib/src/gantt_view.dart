@@ -117,9 +117,9 @@ class GanttChartViewState extends State<GanttChartView> {
   final extraHolidayCache = <DateTime>{};
   final CarouselController _controller = CarouselController();
 
-  int monthView = 1;
+  int monthView = 12;
 
-  double get weekWidth => 43 * 31;
+  // double get weekWidth => 43 * 31;
 
   late DateTime startDate;
   // late DateTime weekOfStartDate;
@@ -280,7 +280,7 @@ class GanttChartViewState extends State<GanttChartView> {
                     enlargeCenterPage: false,
                     viewportFraction: 1,
                   ),
-                  itemCount: ((widget.maxDuration!.inDays) / 2).ceil(),
+                  itemCount: ((widget.maxDuration!.inDays) / 31).ceil(),
                   itemBuilder: (context, index, realIdx) {
                     final int first = index * 2;
                     final int second = first + 1;
@@ -299,23 +299,23 @@ class GanttChartViewState extends State<GanttChartView> {
                         children: [
                           first,
                         ].map((idx) {
-                          final date = startDate.add(Duration(days: idx * 31));
-                          // final weekDate = getWeekOf(date);
-                          int dayWidth = 43;
+                          final date =
+                              startDate.add(Duration(days: index * 31));
+                          double dayWidth = 43;
 
                           DateTime lastDayOfMonth =
                               DateTime(date.year, date.month + 1, 0);
+
                           return Expanded(
                               flex: 1,
                               child: SizedBox(
-                                width: dayWidth.toDouble() * lastDayOfMonth.day,
+                                width: dayWidth * lastDayOfMonth.day,
                                 child: Column(
                                   children: [
                                     //Week Header row
                                     SizedBox(
                                       height: widget.weekHeaderHeight,
-                                      width: dayWidth.toDouble() *
-                                          lastDayOfMonth.day,
+                                      width: dayWidth * lastDayOfMonth.day,
                                       child: widget.weekHeaderBuilder
                                               ?.call(context, date) ??
                                           GanttChartDefaultWeekHeader(
@@ -326,28 +326,25 @@ class GanttChartViewState extends State<GanttChartView> {
                                       SizedBox(
                                         height: widget.dayHeaderHeight,
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
                                             for (int i = 0;
                                                 i < lastDayOfMonth.day;
                                                 i++)
-                                              //Header row
-
-                                              SizedBox(
-                                                width: dayWidth.toDouble(),
-                                                child: widget.dayHeaderBuilder
-                                                        ?.call(
-                                                            context,
-                                                            date.add(Duration(
-                                                                days: i))) ??
-                                                    GanttChartDefaultDayHeader(
-                                                      date: date.add(
-                                                          Duration(days: i)),
-                                                      isHoliday:
-                                                          isHolidayCached,
-                                                    ),
-                                              ),
+                                              widget.dayHeaderBuilder?.call(
+                                                      context,
+                                                      date.add(
+                                                          Duration(days: i))) ??
+                                                  GanttChartDefaultDayHeader(
+                                                    font: 14,
+                                                    width: dayWidth,
+                                                    date: date
+                                                        .add(Duration(days: i)),
+                                                    isHoliday: isHolidayCached,
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -369,12 +366,13 @@ class GanttChartViewState extends State<GanttChartView> {
                                         );
 
                                         final eventColor = eventColors[index];
+
                                         return Container(
                                           decoration: const BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       width: 0.5,
-                                                      color: Colors.white38),
+                                                      color: Colors.white),
                                                   top: BorderSide(
                                                       width: 0.5,
                                                       color: Colors.white38),
@@ -382,23 +380,23 @@ class GanttChartViewState extends State<GanttChartView> {
                                                       width: 0.5,
                                                       color: Colors.white38))),
                                           height: widget.eventHeight,
+                                          // width: weekWidth,
                                           child: widget.eventRowPerWeekBuilder
                                                   ?.call(
                                                 context,
                                                 actStartDate,
                                                 actEndDate,
-                                                dayWidth.toDouble(),
-                                                weekWidth,
+                                                300,
+                                                43 * 31,
                                                 date,
                                                 isHolidayCached,
                                                 e,
                                                 eventColor,
                                               ) ??
                                               GanttChartDefaultEventRowPerWeekBuilder(
-                                                rowElements: lastDayOfMonth.day,
+                                                width: dayWidth,
                                                 eventEndDate: actEndDate,
                                                 eventStartDate: actStartDate,
-                                                dayWidth: dayWidth.toDouble(),
                                                 event: e,
                                                 isHolidayFunc: isHolidayCached,
                                                 weekDate: date,
@@ -418,23 +416,25 @@ class GanttChartViewState extends State<GanttChartView> {
                       );
                     } else if (monthView == 5) {
                       return Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [first, second, third].map((idx) {
                           final date = startDate.add(Duration(days: idx * 31));
                           // final weekDate = getWeekOf(date);
-                          int dayWidth = 40;
+
+                          double dayWidth = 14.3;
+
                           DateTime lastDayOfMonth =
                               DateTime(date.year, date.month + 1, 0);
                           return Expanded(
                               flex: 1,
                               child: SizedBox(
-                                width: dayWidth.toDouble() * lastDayOfMonth.day,
+                                width: dayWidth * lastDayOfMonth.day,
                                 child: Column(
                                   children: [
                                     //Week Header row
                                     SizedBox(
                                       height: widget.weekHeaderHeight,
-                                      width: dayWidth.toDouble() *
-                                          lastDayOfMonth.day,
+                                      width: dayWidth * lastDayOfMonth.day,
                                       child: widget.weekHeaderBuilder
                                               ?.call(context, date) ??
                                           GanttChartDefaultWeekHeader(
@@ -445,38 +445,25 @@ class GanttChartViewState extends State<GanttChartView> {
                                       SizedBox(
                                         height: widget.dayHeaderHeight,
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
                                             for (int i = 0;
                                                 i < lastDayOfMonth.day;
                                                 i++)
-                                              //Header row
-                                              if (i == 1 ||
-                                                  i == 5 ||
-                                                  i == 8 ||
-                                                  i == 10 ||
-                                                  i == 12 ||
-                                                  i == 14 ||
-                                                  i == 18 ||
-                                                  i == 22 ||
-                                                  i == 24 ||
-                                                  i == 26 ||
-                                                  i == 30)
-                                                SizedBox(
-                                                  width: dayWidth.toDouble(),
-                                                  child: widget.dayHeaderBuilder
-                                                          ?.call(
-                                                              context,
-                                                              date.add(Duration(
-                                                                  days: i))) ??
-                                                      GanttChartDefaultDayHeader(
-                                                        date: date.add(
-                                                            Duration(days: i)),
-                                                        isHoliday:
-                                                            isHolidayCached,
-                                                      ),
-                                                ),
+                                              widget.dayHeaderBuilder?.call(
+                                                      context,
+                                                      date.add(
+                                                          Duration(days: i))) ??
+                                                  GanttChartDefaultDayHeader(
+                                                    font: 11,
+                                                    width: dayWidth,
+                                                    date: date
+                                                        .add(Duration(days: i)),
+                                                    isHoliday: isHolidayCached,
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -498,12 +485,13 @@ class GanttChartViewState extends State<GanttChartView> {
                                         );
 
                                         final eventColor = eventColors[index];
+
                                         return Container(
                                           decoration: const BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       width: 0.5,
-                                                      color: Colors.white38),
+                                                      color: Colors.white),
                                                   top: BorderSide(
                                                       width: 0.5,
                                                       color: Colors.white38),
@@ -511,23 +499,23 @@ class GanttChartViewState extends State<GanttChartView> {
                                                       width: 0.5,
                                                       color: Colors.white38))),
                                           height: widget.eventHeight,
+                                          // width: weekWidth,
                                           child: widget.eventRowPerWeekBuilder
                                                   ?.call(
                                                 context,
                                                 actStartDate,
                                                 actEndDate,
-                                                dayWidth.toDouble(),
-                                                weekWidth,
+                                                300,
+                                                43 * 31,
                                                 date,
                                                 isHolidayCached,
                                                 e,
                                                 eventColor,
                                               ) ??
                                               GanttChartDefaultEventRowPerWeekBuilder(
-                                                rowElements: 11,
+                                                width: dayWidth,
                                                 eventEndDate: actEndDate,
                                                 eventStartDate: actStartDate,
-                                                dayWidth: dayWidth.toDouble(),
                                                 event: e,
                                                 isHolidayFunc: isHolidayCached,
                                                 weekDate: date,
@@ -557,21 +545,20 @@ class GanttChartViewState extends State<GanttChartView> {
                         ].map((idx) {
                           final date = startDate.add(Duration(days: idx * 31));
                           // final weekDate = getWeekOf(date);
-                          int dayWidth = 25;
+                          double dayWidth = 7;
 
                           DateTime lastDayOfMonth =
                               DateTime(date.year, date.month + 1, 0);
                           return Expanded(
                               flex: 1,
                               child: SizedBox(
-                                width: dayWidth.toDouble() * lastDayOfMonth.day,
+                                width: dayWidth * lastDayOfMonth.day,
                                 child: Column(
                                   children: [
                                     //Week Header row
                                     SizedBox(
                                       height: widget.weekHeaderHeight,
-                                      width: dayWidth.toDouble() *
-                                          lastDayOfMonth.day,
+                                      width: dayWidth * lastDayOfMonth.day,
                                       child: widget.weekHeaderBuilder
                                               ?.call(context, date) ??
                                           GanttChartDefaultWeekHeader(
@@ -582,35 +569,25 @@ class GanttChartViewState extends State<GanttChartView> {
                                       SizedBox(
                                         height: widget.dayHeaderHeight,
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
                                             for (int i = 0;
                                                 i < lastDayOfMonth.day;
                                                 i++)
-                                              //Header row
-                                              if (i == 1 ||
-                                                  i == 5 ||
-                                                  i == 10 ||
-                                                  i == 12 ||
-                                                  i == 18 ||
-                                                  i == 22 ||
-                                                  i == 26 ||
-                                                  i == 30)
-                                                SizedBox(
-                                                  width: dayWidth.toDouble(),
-                                                  child: widget.dayHeaderBuilder
-                                                          ?.call(
-                                                              context,
-                                                              date.add(Duration(
-                                                                  days: i))) ??
-                                                      GanttChartDefaultDayHeader(
-                                                        date: date.add(
-                                                            Duration(days: i)),
-                                                        isHoliday:
-                                                            isHolidayCached,
-                                                      ),
-                                                ),
+                                              widget.dayHeaderBuilder?.call(
+                                                      context,
+                                                      date.add(
+                                                          Duration(days: i))) ??
+                                                  GanttChartDefaultDayHeader(
+                                                    font: 8,
+                                                    width: dayWidth,
+                                                    date: date
+                                                        .add(Duration(days: i)),
+                                                    isHoliday: isHolidayCached,
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -632,12 +609,13 @@ class GanttChartViewState extends State<GanttChartView> {
                                         );
 
                                         final eventColor = eventColors[index];
+
                                         return Container(
                                           decoration: const BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       width: 0.5,
-                                                      color: Colors.white38),
+                                                      color: Colors.white),
                                                   top: BorderSide(
                                                       width: 0.5,
                                                       color: Colors.white38),
@@ -645,23 +623,23 @@ class GanttChartViewState extends State<GanttChartView> {
                                                       width: 0.5,
                                                       color: Colors.white38))),
                                           height: widget.eventHeight,
+                                          // width: weekWidth,
                                           child: widget.eventRowPerWeekBuilder
                                                   ?.call(
                                                 context,
                                                 actStartDate,
                                                 actEndDate,
-                                                dayWidth.toDouble(),
-                                                weekWidth,
+                                                300,
+                                                43 * 31,
                                                 date,
                                                 isHolidayCached,
                                                 e,
                                                 eventColor,
                                               ) ??
                                               GanttChartDefaultEventRowPerWeekBuilder(
-                                                rowElements: 8,
+                                                width: dayWidth,
                                                 eventEndDate: actEndDate,
                                                 eventStartDate: actStartDate,
-                                                dayWidth: dayWidth.toDouble(),
                                                 event: e,
                                                 isHolidayFunc: isHolidayCached,
                                                 weekDate: date,
@@ -697,21 +675,19 @@ class GanttChartViewState extends State<GanttChartView> {
                         ].map((idx) {
                           final date = startDate.add(Duration(days: idx * 31));
                           // final weekDate = getWeekOf(date);
-                          int dayWidth = 20;
-
+                          double dayWidth = 3.5;
                           DateTime lastDayOfMonth =
                               DateTime(date.year, date.month + 1, 0);
                           return Expanded(
                               flex: 1,
                               child: SizedBox(
-                                width: dayWidth.toDouble() * lastDayOfMonth.day,
+                                width: dayWidth * lastDayOfMonth.day,
                                 child: Column(
                                   children: [
                                     //Week Header row
                                     SizedBox(
                                       height: widget.weekHeaderHeight,
-                                      width: dayWidth.toDouble() *
-                                          lastDayOfMonth.day,
+                                      width: dayWidth * lastDayOfMonth.day,
                                       child: widget.weekHeaderBuilder
                                               ?.call(context, date) ??
                                           GanttChartDefaultWeekHeader(
@@ -722,32 +698,25 @@ class GanttChartViewState extends State<GanttChartView> {
                                       SizedBox(
                                         height: widget.dayHeaderHeight,
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
                                             for (int i = 0;
                                                 i < lastDayOfMonth.day;
                                                 i++)
-                                              //Header row
-                                              if (i == 1 ||
-                                                  i == 8 ||
-                                                  i == 15 ||
-                                                  i == 20 ||
-                                                  i == 30)
-                                                SizedBox(
-                                                  width: dayWidth.toDouble(),
-                                                  child: widget.dayHeaderBuilder
-                                                          ?.call(
-                                                              context,
-                                                              date.add(Duration(
-                                                                  days: i))) ??
-                                                      GanttChartDefaultDayHeader(
-                                                        date: date.add(
-                                                            Duration(days: i)),
-                                                        isHoliday:
-                                                            isHolidayCached,
-                                                      ),
-                                                ),
+                                              widget.dayHeaderBuilder?.call(
+                                                      context,
+                                                      date.add(
+                                                          Duration(days: i))) ??
+                                                  GanttChartDefaultDayHeader(
+                                                    font: 8,
+                                                    width: dayWidth,
+                                                    date: date
+                                                        .add(Duration(days: i)),
+                                                    isHoliday: isHolidayCached,
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -769,12 +738,13 @@ class GanttChartViewState extends State<GanttChartView> {
                                         );
 
                                         final eventColor = eventColors[index];
+
                                         return Container(
                                           decoration: const BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       width: 0.5,
-                                                      color: Colors.white38),
+                                                      color: Colors.white),
                                                   top: BorderSide(
                                                       width: 0.5,
                                                       color: Colors.white38),
@@ -782,23 +752,23 @@ class GanttChartViewState extends State<GanttChartView> {
                                                       width: 0.5,
                                                       color: Colors.white38))),
                                           height: widget.eventHeight,
+                                          // width: weekWidth,
                                           child: widget.eventRowPerWeekBuilder
                                                   ?.call(
                                                 context,
                                                 actStartDate,
                                                 actEndDate,
-                                                dayWidth.toDouble(),
-                                                weekWidth,
+                                                300,
+                                                43 * 31,
                                                 date,
                                                 isHolidayCached,
                                                 e,
                                                 eventColor,
                                               ) ??
                                               GanttChartDefaultEventRowPerWeekBuilder(
-                                                rowElements: 5,
+                                                width: dayWidth,
                                                 eventEndDate: actEndDate,
                                                 eventStartDate: actStartDate,
-                                                dayWidth: dayWidth.toDouble(),
                                                 event: e,
                                                 isHolidayFunc: isHolidayCached,
                                                 weekDate: date,
@@ -847,29 +817,27 @@ class GanttChartViewState extends State<GanttChartView> {
                 SizedBox(
                   width: 215,
                   height: 20,
-                  child: Expanded(
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        activeTrackColor: Colors.white,
-                        thumbShape: const RoundSliderThumbShape(
-                            enabledThumbRadius: 5.0),
-                        overlayShape:
-                            const RoundSliderOverlayShape(overlayRadius: 5.0),
-                      ),
-                      child: Slider(
-                          thumbColor: Colors.white,
-                          activeColor: Colors.white,
-                          inactiveColor: Colors.white,
-                          min: 1,
-                          max: 12,
-                          divisions: 3,
-                          value: monthView.toDouble(),
-                          onChanged: (newMonthView) {
-                            setState(() {
-                              monthView = newMonthView.ceil();
-                            });
-                          }),
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: Colors.white,
+                      thumbShape:
+                          const RoundSliderThumbShape(enabledThumbRadius: 5.0),
+                      overlayShape:
+                          const RoundSliderOverlayShape(overlayRadius: 5.0),
                     ),
+                    child: Slider(
+                        thumbColor: Colors.white,
+                        activeColor: Colors.white,
+                        inactiveColor: Colors.white,
+                        min: 1,
+                        max: 12,
+                        divisions: 3,
+                        value: monthView.toDouble(),
+                        onChanged: (newMonthView) {
+                          setState(() {
+                            monthView = newMonthView.ceil();
+                          });
+                        }),
                   ),
                 ),
                 SizedBox(

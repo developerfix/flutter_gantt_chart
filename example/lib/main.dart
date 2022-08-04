@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff304869),
+        backgroundColor: Color(0xff736879),
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 100, 20, 100),
@@ -74,9 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       Column(
                         children: [
                           GanttChartView(
-                            // maxDuration: const Duration(days: 30 * 2),
-                            maxDuration: const Duration(days: 30),
-                            startDate: DateTime(2022, 7, 2),
+                            maxDuration: const Duration(days: 30 * 30),
+                            // maxDuration: const Duration(days: 30),
+                            startDate: DateTime(2022, 6, 1),
 
                             eventHeight: 40,
                             stickyAreaWidth: 200,
@@ -84,33 +84,38 @@ class _MyHomePageState extends State<MyHomePage> {
                             showDays: showDaysRow,
                             events: [
                               GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
+                                displayName: 'first',
+                                startDate: DateTime(2022, 6, 2),
                                 endDate: DateTime(2022, 6, 20),
                               ),
                               GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
+                                displayName: 'second',
+                                startDate: DateTime(2022, 6, 2),
                                 endDate: DateTime(2022, 6, 20),
                               ),
                               GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
+                                displayName: 'third',
+                                startDate: DateTime(2022, 9, 5),
+                                endDate: DateTime(2022, 12, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'fourth',
+                                startDate: DateTime(2022, 6, 2),
+                                endDate: DateTime(2022, 10, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'fifth',
+                                startDate: DateTime(2022, 6, 2),
+                                endDate: DateTime(2023, 2, 20),
+                              ),
+                              GanttAbsoluteEvent(
+                                displayName: 'sixth',
+                                startDate: DateTime(2022, 6, 2),
                                 endDate: DateTime(2022, 6, 20),
                               ),
                               GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
-                                endDate: DateTime(2022, 6, 20),
-                              ),
-                              GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
-                                endDate: DateTime(2022, 6, 20),
-                              ),
-                              GanttAbsoluteEvent(
-                                displayName: 'Absoulte Date event',
-                                startDate: DateTime(2022, 6, 7),
+                                displayName: 'sdsd',
+                                startDate: DateTime(2022, 6, 2),
                                 endDate: DateTime(2022, 6, 20),
                               ),
                             ],

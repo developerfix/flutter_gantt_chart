@@ -12,7 +12,7 @@ class GanttChartDefaultWeekHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsetsDirectional.only(start: 8, top: 1, bottom: 1),
-      color: const Color(0xff304869),
+      color: const Color(0xff736879),
       child: Center(
         child: LayoutBuilder(builder: (context, constraints) {
           String txt = 'JAN';

@@ -8,25 +8,28 @@ class GanttChartDefaultDayHeader extends StatelessWidget {
     Key? key,
     required this.date,
     required this.isHoliday,
+    required this.width,
+    required this.font,
   }) : super(key: key);
 
   final DateTime date;
+  final double width;
+  final double font;
+
   final bool Function(BuildContext context, DateTime date) isHoliday;
 
   @override
   Widget build(BuildContext context) {
-    // final weekDay = WeekDay.fromIntWeekday(date.weekday);
-    // final isHolidayV = isHoliday.call(context, date);
-    const bgColor = Colors.white;
-    const textColor = Colors.black;
-    return Container(
-      color: Color(0xff304869),
+    final weekDay = WeekDay.fromIntWeekday(date.weekday);
+
+    return SizedBox(
+      width: width,
       child: Center(
         child: Text(
-          date.day.toString().toUpperCase(),
+          weekDay.symbol == 'M' ? date.day.toString() : '',
           style: GoogleFonts.comfortaa(
-            textStyle: const TextStyle(
-              fontSize: 12.0,
+            textStyle: TextStyle(
+              fontSize: font,
               overflow: TextOverflow.visible,
               letterSpacing: 0,
               color: Colors.white,
