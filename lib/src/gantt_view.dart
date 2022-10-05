@@ -1,11 +1,8 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/src/gantt_default_day_header.dart';
 import 'package:gantt_chart/src/gantt_default_week_header.dart';
-import 'package:gantt_chart/src/week_day.dart';
 import 'package:gantt_chart/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +22,7 @@ typedef EventCellBuilderFunction = Widget Function(
 
 /// Displays a gantt chart
 class GanttChartView extends StatefulWidget {
-  GanttChartView({
+  const GanttChartView({
     Key? key,
     required this.events,
     required this.startDate,
@@ -117,7 +114,7 @@ class GanttChartViewState extends State<GanttChartView> {
   final extraHolidayCache = <DateTime>{};
   final CarouselController _controller = CarouselController();
 
-  int monthView = 12;
+  int monthView = 1;
 
   // double get weekWidth => 43 * 31;
 
